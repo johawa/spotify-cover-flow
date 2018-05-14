@@ -18,6 +18,8 @@ class Landingpage extends Component {
         this.setState({ searched: true });
     }
 
+   
+
     render() {
         let coverflow = <div>Please Search for an Artist</div>
 

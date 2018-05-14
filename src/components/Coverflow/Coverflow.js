@@ -9,17 +9,17 @@ class Coverflow extends Component {
     state = {
         searchString: this.props.query,
         loading: false,
+        scrollAnimationRunning: false,
         ImageUrl: []
     }
 
     componentDidMount() {
-        this.scrollAnimation();
         this.fetchAlbumData();
+        this.scrollAnimation();
     }
 
-
-
     scrollAnimation() {
+        console.log('geht');
         const scrollable = document.getElementById("Coverflow")
         const items = document.getElementById("items")
         //Scroll Animation
@@ -82,9 +82,6 @@ class Coverflow extends Component {
     }
 
     fetchAlbumData() {
-
-
-
         const search = this.state.searchString
 
         this.setState({ loading: true });
@@ -121,24 +118,48 @@ class Coverflow extends Component {
             })
             .catch((e) => this.setState({ loading: false }));
 
+
+
     }
+
 
     render() {
 
-        let listElements = this.state.ImageUrl.map(image => {
-            console.log(image)
-            return <li><div><img src={image} /> </div></li>;
+        let listElements = this.state.ImageUrl.map((image, index) => {
+            return (<li
+                key={Math.random() * index}
+                style={{ 'zIndex': 100 + (index * -1) }}>
+                <div>
+                    <img src={image} />
+                </div>
+            </li>);
         })
+
+        if (this.state.loading) {
+
+            listElements = new Array(10)
+
+            for (let i = 0; i <= 10; i++) {
+                listElements.push(<li
+                    key={Math.random() * i}
+                    style={{ 'zIndex': 100 + (i * -1) }}>
+                    <div>
+                        <Spinner />
+                    </div>
+                </li>);
+            }
+        }
+
 
 
         return (
             <div className={classes.Coverflow} id="Coverflow" >
-                {
-                    this.state.loading ? <Spinner /> :
-                        <ul className={classes.item} id="items">
-                            {listElements}
-                        </ul>
-                }
+
+                <ul className={classes.item} id="items">
+                    <div></div>
+                    {listElements}
+                </ul>
+
 
             </div>
 
