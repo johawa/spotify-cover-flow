@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
 
+import Spinner from '../UI/Spinner/Spinner';
+import axios from '../../axios-query';
 import classes from './Coverflow.css';
+import Aux from '../../hoc/Auxilary';
 
 class Coverflow extends Component {
     state = {
-        searchString: this.props.query
+        searchString: this.props.query,
+        loading: false,
+        ImageUrl: []
     }
 
     componentDidMount() {
         this.scrollAnimation();
+        this.fetchAlbumData();
     }
 
-    componentWillReceiveProps() {
-        //this.fetchAlbumData();
-    }
+
 
     scrollAnimation() {
         const scrollable = document.getElementById("Coverflow")
@@ -80,33 +83,67 @@ class Coverflow extends Component {
 
     fetchAlbumData() {
 
-        const parsed = queryString.parse(window.location.search)
-        const accessToken = parsed.access_token
+
+
         const search = this.state.searchString
 
-        fetch('https://api.spotify.com/v1/search?q=' + search + '&type=album', {
-            headers: { 'Authorization': 'Bearer ' + accessToken }
-        })
-            .then(response => console.log(response))
+        this.setState({ loading: true });
+
+        axios.get('search?q=' + search + '&type=album')
+            //.then(response => console.log(response))
+            .then(data => {
+                return Promise.all(data.data.albums.items
+                    .map(item => item.id).slice(0, 10)
+                    .map(id => axios.get('albums/' + id)));
+            })
+            .then(responses => Promise.all(responses.map(image => image.data.images[0].url)))
+            .then(urls => {
+                return Promise.all(urls.map(url => {
+                    return new Promise(resolve => {
+                        const image = new Image();
+                        image.addEventListener('load', () => {
+                            resolve(image);
+                        });
+                        image.src = url;
+                    })
+                }));
+            })
+            .then(images => {
+                let imgArr = [];
+                images.forEach(image => {
+                    imgArr.push(image.src);
+                });
+                return imgArr
+            })
+            .then((imgArr) => Promise.all(this.setState({ ImageUrl: imgArr })))
+            .then(result => {
+                this.setState({ loading: false })
+            })
+            .catch((e) => this.setState({ loading: false }));
 
     }
 
     render() {
+
+        let listElements = this.state.ImageUrl.map(image => {
+            console.log(image)
+            return <li><div><img src={image} /> </div></li>;
+        })
+
+
         return (
-            <div className={classes.Coverflow} id="Coverflow">
-                <ul className={classes.item} id="items">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
+            <div className={classes.Coverflow} id="Coverflow" >
+                {
+                    this.state.loading ? <Spinner /> :
+                        <ul className={classes.item} id="items">
+                            {listElements}
+                        </ul>
+                }
+
             </div>
+
+
+
         );
     }
 }

@@ -26,6 +26,14 @@
     overflow: hidden;
 }
 
+.Coverflow img 
+ {
+  flex-shrink: 0;
+  justify-content: center;
+  display: flex;
+  max-width:100%;   
+}  
+
 
 
 
