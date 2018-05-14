@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 
-import './App.css';
+import Layout from './components/Layout/Layout';
+import Landingpage from './containers/Landingpage';
+
 
 class App extends Component {
   render() {
     return (
       <div>
-        hi
+        <Layout>
+          <Landingpage/>
+        </Layout>
       </div>
     );
   }
