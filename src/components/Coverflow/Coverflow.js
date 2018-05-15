@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import Spinner from '../UI/Spinner/Spinner';
-import axios from '../../axios-query';
+
+
 import classes from './Coverflow.css';
-import Aux from '../../hoc/Auxilary';
+
+
 
 class Coverflow extends Component {
     state = {
-        searchString: this.props.query,
-        loading: false,
-        scrollAnimationRunning: false,
-        ImageUrl: []
+        loading: false,        
     }
 
     componentDidMount() {
-        this.fetchAlbumData();
-        this.scrollAnimation();
+        this.scrollAnimation();        
     }
+    
 
     scrollAnimation() {
-        console.log('geht');
+
         const scrollable = document.getElementById("Coverflow")
         const items = document.getElementById("items")
         //Scroll Animation
@@ -81,87 +80,53 @@ class Coverflow extends Component {
 
     }
 
-    fetchAlbumData() {
-        const search = this.state.searchString
-
-        this.setState({ loading: true });
-
-        axios.get('search?q=' + search + '&type=album')
-            //.then(response => console.log(response))
-            .then(data => {
-                return Promise.all(data.data.albums.items
-                    .map(item => item.id).slice(0, 10)
-                    .map(id => axios.get('albums/' + id)));
-            })
-            .then(responses => Promise.all(responses.map(image => image.data.images[0].url)))
-            .then(urls => {
-                return Promise.all(urls.map(url => {
-                    return new Promise(resolve => {
-                        const image = new Image();
-                        image.addEventListener('load', () => {
-                            resolve(image);
-                        });
-                        image.src = url;
-                    })
-                }));
-            })
-            .then(images => {
-                let imgArr = [];
-                images.forEach(image => {
-                    imgArr.push(image.src);
-                });
-                return imgArr
-            })
-            .then((imgArr) => Promise.all(this.setState({ ImageUrl: imgArr })))
-            .then(result => {
-                this.setState({ loading: false })
-            })
-            .catch((e) => this.setState({ loading: false }));
-
-
-
-    }
-
 
     render() {
 
-        let listElements = this.state.ImageUrl.map((image, index) => {
-            return (<li
-                key={Math.random() * index}
-                style={{ 'zIndex': 100 + (index * -1) }}>
-                <div>
-                    <img src={image} />
-                </div>
-            </li>);
-        })
-
-        if (this.state.loading) {
-
-            listElements = new Array(10)
-
-            for (let i = 0; i <= 10; i++) {
-                listElements.push(<li
-                    key={Math.random() * i}
-                    style={{ 'zIndex': 100 + (i * -1) }}>
+        let listElements = <div> no albums </div>
+        if (this.state.imgArr) {
+            console.log(this.state.imgArr)
+           /*  listElements = this.state.imgArr.map((image, index) => {
+                return (<li
+                    key={index}
+                    style={{ 'zIndex': 100 + (index * -1) }}>
                     <div>
-                        <Spinner />
+                        <img src={image} />
                     </div>
                 </li>);
-            }
+            }) */
+
         }
 
 
 
-        return (
-            <div className={classes.Coverflow} id="Coverflow" >
+        /*  if (this.state.loading) {
+     
+                 listElements = new Array(10)
+     
+                 for (let i = 0; i <= 10; i++) {
+                     listElements.push(<li
+                         key={Math.random() * i}
+                         style={{ 'zIndex': 100 + (i * -1) }}>
+                         <div>
+                             <Spinner />
+                         </div>
+                     </li>);
+                 }
+             }  */
 
+
+
+        return (
+
+
+            <div className={classes.Coverflow} id="Coverflow" >
                 <ul className={classes.item} id="items">
                     <div></div>
                     {listElements}
                 </ul>
-
-
             </div>
+
 
 
 
@@ -169,4 +134,7 @@ class Coverflow extends Component {
     }
 }
 
-export default Coverflow;
+
+
+
+export default connect()(Coverflow);
