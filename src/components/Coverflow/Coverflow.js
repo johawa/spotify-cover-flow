@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 
-
 import classes from './Coverflow.css';
 
 
-
 class Coverflow extends Component {
-    state = {
-        loading: false,        
-    }
 
     componentDidMount() {
-        this.scrollAnimation();        
+        this.scrollAnimation();       
     }
-    
 
     scrollAnimation() {
 
@@ -79,23 +73,35 @@ class Coverflow extends Component {
 
 
     }
+   
+
+    getID = (event , id) => {
+        console.log(event.target)
+        console.log(id)
+    }
 
 
     render() {
 
         let listElements = <div> no albums </div>
-        if (this.state.imgArr) {
-            console.log(this.state.imgArr)
-           /*  listElements = this.state.imgArr.map((image, index) => {
+
+        if (this.props.imgArr) {
+            listElements = this.props.imgArr.map((image, index) => {
+                const id = this.props.ids[index].id
+              
                 return (<li
+                    onClick={(event) => this.getID(event, id)}
                     key={index}
                     style={{ 'zIndex': 100 + (index * -1) }}>
                     <div>
                         <img src={image} />
+                        <p className={classes.Description}
+                            style={{ 'zIndex': 101 + (index * -1) }}>
+                            {this.props.ids[index].name}
+                        </p>
                     </div>
                 </li>);
-            }) */
-
+            })
         }
 
 
@@ -118,23 +124,23 @@ class Coverflow extends Component {
 
 
         return (
-
-
             <div className={classes.Coverflow} id="Coverflow" >
                 <ul className={classes.item} id="items">
                     <div></div>
                     {listElements}
                 </ul>
             </div>
-
-
-
-
         );
     }
 }
 
+const mapStatetoProps = state => {
+    return {
+        imgArr: state.imgArr,
+        ids: state.ids
+    };
+}
 
 
 
-export default connect()(Coverflow);
+export default connect(mapStatetoProps)(Coverflow);

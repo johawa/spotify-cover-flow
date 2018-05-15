@@ -18,6 +18,13 @@ class searchform extends Component {
         const search = this.state.queryString
         axios.get('search?q=' + search + '&type=album')
             .then(data => {
+                let info = []
+
+                data.data.albums.items.forEach((item) => {
+                    info.push({ name: item.name, id: item.id, href: item.href })
+                    //console.log(item)                                                
+                })
+                this.props.getAlbumIDs(info) 
                 return Promise.all(data.data.albums.items
                     .map(item => item.id).slice(0, 10)
                     .map(id => axios.get('albums/' + id)));
@@ -42,7 +49,7 @@ class searchform extends Component {
                 return imgArr
             })
             .then((imgArr) => {
-                this.props.getAlbumImgURLs(imgArr)                
+                this.props.getAlbumImgURLs(imgArr)
             })
             .catch((e) => console.log(e));
 
@@ -52,6 +59,8 @@ class searchform extends Component {
     handleChange = (event) => {
         this.setState({ queryString: event.target.value });
     }
+
+
 
 
     render() {
@@ -82,6 +91,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchQueryString: (queryString) => dispatch({ type: actionTypes.FETCH_QUERY_STRING, queryString: queryString }),
+        getAlbumIDs: (ids) => dispatch({ type: actionTypes.GET_ALBUM_IDS, ids: ids }),
         getAlbumImgURLs: (imgArr) => dispatch({ type: actionTypes.GET_ABLUM_IMG_URLS, imgArr: imgArr })
     }
 }

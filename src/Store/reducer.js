@@ -2,7 +2,8 @@ import * as actionTypes from './actions';
 
 const initialState = {
     queryString: '',
-    imgArr: []
+    imgArr: [],
+    ids: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,                
                 imgArr: action.imgArr
+            };
+        case actionTypes.GET_ALBUM_IDS:            
+            return {
+                ...state,                
+                ids: action.ids
             };
         default:
             return state;

@@ -1,2 +1,3 @@
 export const FETCH_QUERY_STRING = 'FETCH_QUERY_STRING';
 export const GET_ABLUM_IMG_URLS = 'GET_ABLUM_IMG_URLS';
+export const GET_ALBUM_IDS = 'GET_ALBUM_IDS';

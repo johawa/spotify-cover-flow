@@ -34,6 +34,10 @@
   max-width:100%;   
 }  
 
+.Description {  
+  position: absolute;
+  font-size: 14px;
+}
 
 
 
