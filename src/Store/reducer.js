@@ -3,7 +3,9 @@ import * as actionTypes from './actions';
 const initialState = {
     queryString: '',
     imgArr: [],
-    ids: null
+    ids: null,
+    device_id: null,
+    playing: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +24,21 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,                
                 ids: action.ids
+            };
+        case actionTypes.SET_PLAYER_ID:            
+            return {
+                ...state,                
+                device_id: action.device_id
+            };
+        case actionTypes.SET_PLAYING_TRUE:            
+            return {
+                ...state,                
+                playing: true
+            };
+        case actionTypes.SET_PLAYING_FALSE:            
+            return {
+                ...state,                
+                playing: false
             };
         default:
             return state;

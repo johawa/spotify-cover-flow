@@ -3,12 +3,18 @@ import { connect } from 'react-redux';
 
 
 import classes from './Coverflow.css';
-
+import Aux from '../../hoc/Auxilary';
+import Tracklist from '../Tracklist/Tracklist';
+import axios from '../../axios-query';
 
 class Coverflow extends Component {
+    state = {
+        selectedCoverID: null,
+        tracklist: []
+    }
 
     componentDidMount() {
-        this.scrollAnimation();       
+        this.scrollAnimation();
     }
 
     scrollAnimation() {
@@ -73,11 +79,30 @@ class Coverflow extends Component {
 
 
     }
-   
 
-    getID = (event , id) => {
-        console.log(event.target)
-        console.log(id)
+
+    getID = (event, id) => {
+
+
+        this.setState({ selectedCoverID: id });
+
+        axios.get('albums/' + id + '/tracks')
+            .then(data => {
+                //console.log(data);
+                return Promise.all(data.data.items.map(function (item) {
+
+                    return [{
+                        number: item.track_number,
+                        name: item.name,
+                        duration: item.duration_ms,
+                        uri: item.uri
+                    }]
+                }))
+            })
+            
+            .then(tracklist => this.setState({tracklist: tracklist}))
+            //.then(() => console.log(this.state))
+            
     }
 
 
@@ -88,7 +113,7 @@ class Coverflow extends Component {
         if (this.props.imgArr) {
             listElements = this.props.imgArr.map((image, index) => {
                 const id = this.props.ids[index].id
-              
+
                 return (<li
                     onClick={(event) => this.getID(event, id)}
                     key={index}
@@ -103,6 +128,18 @@ class Coverflow extends Component {
                 </li>);
             })
         }
+
+        let tracklist = null;
+
+        if (this.state.selectedCoverID) {
+            tracklist = (
+                <div>
+                    Tracklist:
+                    <Tracklist id={this.state.selectedCoverID} tracklist={this.state.tracklist}/>
+                </div>
+            );
+        }
+
 
 
 
@@ -124,12 +161,15 @@ class Coverflow extends Component {
 
 
         return (
-            <div className={classes.Coverflow} id="Coverflow" >
-                <ul className={classes.item} id="items">
-                    <div></div>
-                    {listElements}
-                </ul>
-            </div>
+            <Aux>
+                <div className={classes.Coverflow} id="Coverflow" >
+                    <ul className={classes.item} id="items">
+                        <div></div>
+                        {listElements}
+                    </ul>
+                </div>
+                {tracklist}
+            </Aux>
         );
     }
 }

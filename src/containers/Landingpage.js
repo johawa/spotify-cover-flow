@@ -15,7 +15,7 @@ class Landingpage extends Component {
         return (
             <Aux>               
                 <Searchform />
-                <Tracklist />
+                
             </Aux>
         );
     }
