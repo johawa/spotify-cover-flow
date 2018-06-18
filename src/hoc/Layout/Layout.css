@@ -1,0 +1,29 @@
+.Container{   
+    min-height:100vh;
+    max-height:100vh;
+    margin: 0rem auto;  
+    display: flex;
+    flex-direction: column;
+}
+
+.Header  {   
+    width: 100%;  
+    min-height: 4rem;   
+}
+
+.Player {
+    width: 100%;   
+    min-height: 4rem;   
+}
+.Main { 
+    flex: 1;
+    
+   
+    
+    height: 100%;
+    display: flex;
+
+   
+}
+
+

@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import axios from '../../../axios-query';
-import Coverflow from '../../Coverflow/Coverflow';
-import * as actionTypes from '../../../Store/actions';
+import axios from '../../axios-query';
+import * as actionTypes from '../../Store/actions';
 
-class searchform extends Component {
+class Search extends Component {
     state = {
-        queryString: ''
+        queryString: '',
     }
 
     searchAlbums = (event) => {
         event.preventDefault();
-
+        this.props.loadingAlbumImagesForCoverflow();
         this.props.fetchQueryString(this.state.queryString)
 
         const search = this.state.queryString
@@ -24,7 +23,7 @@ class searchform extends Component {
                     info.push({ name: item.name, id: item.id, href: item.href })
                     //console.log(item)                                                
                 })
-                this.props.getAlbumIDs(info) 
+                this.props.getAlbumIDs(info)
                 return Promise.all(data.data.albums.items
                     .map(item => item.id).slice(0, 10)
                     .map(id => axios.get('albums/' + id)));
@@ -50,7 +49,7 @@ class searchform extends Component {
             })
             .then((imgArr) => {
                 this.props.getAlbumImgURLs(imgArr)
-            })
+            }).then(() => this.props.loadingAlbumImagesForCoverflow())
             .catch((e) => console.log(e));
 
 
@@ -59,9 +58,6 @@ class searchform extends Component {
     handleChange = (event) => {
         this.setState({ queryString: event.target.value });
     }
-
-
-
 
     render() {
         let form = (
@@ -74,22 +70,15 @@ class searchform extends Component {
 
         return (
             <div>
-                {form}
-                <Coverflow urls={this.state.urls} />
+                {form}               
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        loadingAlbumData: state.loading
-    };
-}
-
-
 const mapDispatchToProps = dispatch => {
     return {
+        loadingAlbumImagesForCoverflow: () => dispatch({ type: actionTypes.LOADING_ALBUMIMAGES_FOR_COVERFLOW }),
         fetchQueryString: (queryString) => dispatch({ type: actionTypes.FETCH_QUERY_STRING, queryString: queryString }),
         getAlbumIDs: (ids) => dispatch({ type: actionTypes.GET_ALBUM_IDS, ids: ids }),
         getAlbumImgURLs: (imgArr) => dispatch({ type: actionTypes.GET_ABLUM_IMG_URLS, imgArr: imgArr })
@@ -100,4 +89,4 @@ const mapDispatchToProps = dispatch => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(searchform);
+export default connect(null, mapDispatchToProps)(Search);

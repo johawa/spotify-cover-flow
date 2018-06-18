@@ -1,0 +1,40 @@
+.Player {
+    background-color: #181818;
+    color: #fff;   
+    z-index: 200;  
+    height: 6rem;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    flex: 1;
+}
+
+.Playercontrol {
+    
+    flex-shrink: 0;
+    flex-basis: 20%;
+
+    box-sizing: border-box;
+    display: flex;    
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.Progressbarcontainer {
+   
+    flex: 0 0 50%;
+    padding: 2.4rem;  
+}
+
+.Volumecontainer {
+  
+    flex-shrink: 0;
+    padding-top: 1.5rem;
+    flex-basis: 20%;
+    display: flex;    
+    justify-content: flex-start;
+    align-content: center;
+    
+}
+

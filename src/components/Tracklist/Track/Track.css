@@ -1,6 +1,13 @@
 .TrackItem {
-    border: 1px solid green;
+    border-bottom: 1px solid rgba(35,37,38,1);
     padding: 0.5px;
-    background-color: gainsboro;
-    color: black
+    background-color:#1a1919;
+    display: flex;
+    justify-content: space-between;
+   
+}
+
+.TrackItem:hover {
+    cursor: pointer;
+    background-color:rgba(54,56,57,1);
 }

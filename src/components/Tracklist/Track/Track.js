@@ -7,33 +7,28 @@ import * as actionTypes from '../../../Store/actions.js';
 
 class Track extends Component {
 
-    playsong = (uri) => {
+    playsong = (nr) => {
 
-        switch (this.props.playing) {
-            case false:
-                console.log('true');
-                axios.put("me/player/play?device_id=" + this.props.device_id, {
-                    uris: [uri]
-                }).then(data => console.log(data))
-                    .then(() => this.props.playing_to_true())
-                break;
-            case true:
-                console.log('flase')
-                axios.put("me/player/pause?device_id=" + this.props.device_id).then(data => console.log(data))
+        const coverId = this.props.selectedCoverID
+        const album = `spotify:album:${coverId}`
+        const offset = nr - 1
 
-                    .then(() => this.props.playing_to_false())
-                break;
-        }
+        axios.put("me/player/play?device_id=" + this.props.device_id, {
+            context_uri: album,
+            offset: { position: offset }
+        }).then(data => console.log(data))
+            .then(() => this.props.playing_to_true())
 
     }
 
+
     render() {
         return (
-            <div className={classes.TrackItem} onClick={() => this.playsong(this.props.uri)}>
-                {this.props.nr} ,
-                {this.props.name} ,
-                {this.props.duration}
-            </div>
+            <li className={classes.TrackItem} onClick={() => this.playsong(this.props.nr)}>
+                <span>&#9658;</span>
+                <span>{this.props.name} </span>
+                <span>{this.props.duration} </span>
+            </li>
         );
     }
 };
@@ -41,7 +36,9 @@ class Track extends Component {
 const mapStatetoProps = state => {
     return {
         device_id: state.device_id,
-        playing: state.playing
+        selectedCoverID: state.selectedCoverId,
+        playing: state.playing,
+        selected_tracklist: state.selectedTracklist
     };
 }
 

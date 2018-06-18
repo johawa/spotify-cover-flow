@@ -1,0 +1,48 @@
+.Input {
+    font-family: inherit;
+    font-size: 1.6rem;    
+    color: #666;    
+    border: none;
+    padding: .7rem 2rem;
+    background: #e5e5e5;    
+    border-radius: 8px; 
+    transition: all .2s;   
+    width: 80%;  
+    margin-right: -3.25rem;
+    caret-color: #1db954;
+}
+
+.Input:focus {
+    outline: none;
+    width: 90%;
+    background-color: #ffff; 
+}
+
+.Button {
+    border: none;
+}
+
+.Button:focus {
+    outline: none;
+}
+
+
+
+
+
+
+.Search {
+
+    position: relative;
+ 
+    flex: 0 0 40%;
+    display: flex; 
+   
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+

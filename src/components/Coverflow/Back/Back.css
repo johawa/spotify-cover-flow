@@ -1,0 +1,18 @@
+.Back {
+  z-index: 250 !important;
+  font-size: 0.8vw;
+ background-color: #181818;
+  
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+  transform: rotateY(180deg);
+
+  height: 20vw;
+  width: 20vw;
+
+  backface-visibility: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+}

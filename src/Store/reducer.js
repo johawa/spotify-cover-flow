@@ -3,9 +3,15 @@ import * as actionTypes from './actions';
 const initialState = {
     queryString: '',
     imgArr: [],
+    starting_volume: 0,
+    user_volume: 100,
     ids: null,
     device_id: null,
-    playing: false
+    playing: false,
+    loadingAlbumImagesForCoverflow: true,
+    selectedTracklist: [],
+    selectedCoverId: null,
+    current_playback_data: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,34 +21,65 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 queryString: action.queryString
             };
-        case actionTypes.GET_ABLUM_IMG_URLS:            
+        case actionTypes.GET_ABLUM_IMG_URLS:
             return {
-                ...state,                
+                ...state,
                 imgArr: action.imgArr
             };
-        case actionTypes.GET_ALBUM_IDS:            
+        case actionTypes.GET_ALBUM_IDS:
             return {
-                ...state,                
+                ...state,
                 ids: action.ids
             };
-        case actionTypes.SET_PLAYER_ID:            
+        case actionTypes.SET_PLAYER_ID:
             return {
-                ...state,                
+                ...state,
                 device_id: action.device_id
             };
-        case actionTypes.SET_PLAYING_TRUE:            
+        case actionTypes.SELECTED_TRACKLIST:
             return {
-                ...state,                
+                ...state,
+                selectedTracklist: action.selectedTracklist
+            };
+        case actionTypes.SELECTED_COVER_ID:
+            return {
+                ...state,
+                selectedCoverId: action.id
+            };
+        case actionTypes.GET_STARTING_VOLUME:
+            return {
+                ...state,
+                starting_volume: action.volume
+            };
+        case actionTypes.GET_USER_VOLUME:
+            return {
+                ...state,
+                user_volume: action.volume
+            };
+        case actionTypes.LOADING_ALBUMIMAGES_FOR_COVERFLOW:
+            return {
+                ...state,
+                loadingAlbumImagesForCoverflow: !state.loadingAlbumImagesForCoverflow
+            };
+        case actionTypes.SET_PLAYING_FALSE:
+            return {
+                ...state,
+                playing: false
+            };
+        case actionTypes.SET_PLAYING_TRUE:
+            return {
+                ...state,
                 playing: true
             };
-        case actionTypes.SET_PLAYING_FALSE:            
+
+        case actionTypes.SET_CURRENT_PLAYBACKDATA:
             return {
-                ...state,                
-                playing: false
+                ...state,
+                current_playback_data: action.current_playback_data
             };
         default:
             return state;
-    }    
+    }
 };
 
 export default reducer;

@@ -1,0 +1,17 @@
+.Tracklist {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.Ol {   
+    flex: 1;
+    padding: 0;
+    list-style-type: none; 
+}

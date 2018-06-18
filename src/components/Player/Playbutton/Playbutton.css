@@ -1,0 +1,69 @@
+.PlayButton {
+  margin-right: 1rem;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.isEnabled {
+  cursor: pointer;
+  border: 2px solid #72D687;
+}
+
+.Icon {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  fill: #ffff;
+}
+
+.IconShape {
+  fill: #ffff;
+}
+
+@keyframes play18 {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: -432px 0px;
+  }
+}
+
+@keyframes play19 {
+  0% {
+    background-position: -432px 0px;
+  }
+  100% {
+    background-position: 0px 0px;
+  }
+}
+
+.Shapeshifter {
+  animation-duration: 300ms;
+  animation-timing-function: steps(18);
+  animation-fill-mode: forwards;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  color: #ffff;
+  margin-right: 6px;
+  margin-left: -8px;
+  margin-top: -2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  transform: scale(2);
+}
+
+.Shapeshifter:hover {
+  transform: scale(2.1);
+}
+
+.Shapeshifter.Play {
+  animation-name: play18;
+}
+
+.Shapeshifter.Pause {
+  animation-name: play19;
+}
