@@ -77,7 +77,8 @@ class App extends Component {
           this.props.setPlayingToFalse()
         }
 
-        this.props.setCurrentPlaybackState(data)
+        this.props.setCurrentPlaybackState(data);
+        this.props.setCurrentTrack(data.track_window.current_track.id);
       });
 
 
@@ -170,7 +171,8 @@ const mapDispatchToProps = dispatch => {
     getPlayerVolume: (volume) => dispatch({ type: actionTypes.GET_STARTING_VOLUME, volume: volume }),
     setPlayingToTrue: () => dispatch({ type: actionTypes.SET_PLAYING_TRUE }),
     setPlayingToFalse: () => dispatch({ type: actionTypes.SET_PLAYING_FALSE }),
-    setCurrentPlaybackState: (current_playback_data) => dispatch({ type: actionTypes.SET_CURRENT_PLAYBACKDATA, current_playback_data: current_playback_data })
+    setCurrentPlaybackState: (current_playback_data) => dispatch({ type: actionTypes.SET_CURRENT_PLAYBACKDATA, current_playback_data: current_playback_data }),
+    setCurrentTrack: (current_track) => dispatch({ type: actionTypes.SET_CURRENT_TRACK, current_track: current_track }),
   }
 }
 

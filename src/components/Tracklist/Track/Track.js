@@ -33,8 +33,15 @@ class Track extends Component {
 
     render() {
         const icon = this.state.isHovered ? <i class="fa">&#xf04b;</i> : <i class="fa">&#xf0a1;</i>;
+
+        let css = null;
+
+        if (this.props.playing && this.props.current_track === this.props.id) {
+            css = { color: 'green', backgroundColor: 'rgba(54, 56, 57, 1)' }
+        }
         return (
             <li className={classes.TrackItem}
+                style={css}
                 onMouseEnter={this.handleHover}
                 onMouseLeave={this.handleHover}
                 onClick={() => this.playsong(this.props.nr)}>
@@ -55,7 +62,8 @@ const mapStatetoProps = state => {
         device_id: state.device_id,
         selectedCoverID: state.selectedCoverId,
         playing: state.playing,
-        selected_tracklist: state.selectedTracklist
+        selected_tracklist: state.selectedTracklist,
+        current_track: state.current_track
     };
 }
 

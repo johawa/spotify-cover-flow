@@ -11,6 +11,7 @@ const initialState = {
     loadingAlbumImagesForCoverflow: true,
     selectedTracklist: [],
     selectedCoverId: null,
+    current_track: null,
     current_playback_data: false
 };
 
@@ -76,6 +77,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 current_playback_data: action.current_playback_data
+            };
+        case actionTypes.SET_CURRENT_TRACK:
+            return {
+                ...state,
+                current_track: action.current_track
             };
         default:
             return state;

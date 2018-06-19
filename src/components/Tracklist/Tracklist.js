@@ -27,6 +27,7 @@ class Tracklist extends Component {
                     name={item[0].name}
                     uri={item[0].uri}
                     duration={calcedDuration}
+                    id={item[0].id}
                 ></Track>);
             });
         }
