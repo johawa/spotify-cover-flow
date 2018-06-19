@@ -6,6 +6,9 @@ import classes from './Track.css';
 import * as actionTypes from '../../../Store/actions.js';
 
 class Track extends Component {
+    state = {
+        isHovered: false
+    }
 
     playsong = (nr) => {
 
@@ -21,13 +24,27 @@ class Track extends Component {
 
     }
 
+    handleHover = () => {
+        this.setState({
+            isHovered: !this.state.isHovered
+        });
+    }
+
 
     render() {
+        const icon = this.state.isHovered ? <i class="fa">&#xf04b;</i> : <i class="fa">&#xf0a1;</i>;
         return (
-            <li className={classes.TrackItem} onClick={() => this.playsong(this.props.nr)}>
-                <span>&#9658;</span>
-                <span>{this.props.name} </span>
-                <span>{this.props.duration} </span>
+            <li className={classes.TrackItem}
+                onMouseEnter={this.handleHover}
+                onMouseLeave={this.handleHover}
+                onClick={() => this.playsong(this.props.nr)}>
+                <div className={classes.IconBox}>
+                    {icon}
+                </div>
+                <div className={classes.NameBox}>
+                    <div className={classes.Name}>{this.props.name} </div>
+                </div>
+                <div className={classes.DurationBox}>{this.props.duration} </div>
             </li>
         );
     }

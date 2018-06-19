@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 
+
+import classes from './Volumehandler.css';
 import * as actionTypes from '../../../Store/actions';
 import { player } from '../../../App';
 
+
 class Volumehandler extends Component {
+
 
     handleChange = (event) => {
         const value = event.target.value
@@ -24,18 +28,22 @@ class Volumehandler extends Component {
     render() {
 
 
-        let label = 'VOLUME'
+        let label = <i class="fa" aria-hidden="true">&#xf028;</i>
+
+        if (this.props.user_volume <= 50) {
+            label = <i class="fa" aria-hidden="true">&#xf027;</i>
+        }
 
         if (this.props.user_volume <= 0) {
-            label = 'MUTED'
+            label = <i class="fa" aria-hidden="true">&#xf026;</i>
         }
 
         return (
-            <div>
-                <label> {label}  </label>
-                <input
-                   
-                    type="range"
+            <div className={classes.VolumehandlerBox}>
+                <div className={classes.SoundIconBox}> {label}  </div>
+
+                <input   
+                    type="range"                 
                     min="0"
                     value={this.props.user_volume}
                     max="100"
@@ -43,6 +51,7 @@ class Volumehandler extends Component {
                     onTouchEnd={this.handleSubmit}
                     onMouseUp={this.handleSubmit}
                 />
+
             </div>
 
         );
@@ -65,3 +74,4 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Volumehandler);
+

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import InputRange from 'react-input-range';
-import prettyMs from 'pretty-ms'
+import format from 'format-duration';
 
 
+import classes from './Progressbar.css';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!style-loader!css-loader!../../../../node_modules/react-input-range/lib/css/input-range/input-range.css'
 
@@ -87,11 +88,11 @@ class Progressbar extends Component {
 
 
     render() {
-        
+
         let duration = 0;
 
         if (this.props.duration) {
-            duration = prettyMs(this.props.duration, {secDecimalDigits: 0});
+            duration = format(this.props.duration);
             console.log(duration)
         }
 
@@ -107,11 +108,11 @@ class Progressbar extends Component {
 
         return (
 
-            <form>
+            <div className={classes.ProgessbarContainer} >
 
                 <InputRange
                     //type="range"
-                    
+                    formatLabel={value => format(value)}
                     value={value}
                     minValue={0}
                     maxValue={this.props.duration}
@@ -119,9 +120,9 @@ class Progressbar extends Component {
                     onChangeComplete={this.handleSubmit}
                     onChangeStart={this.startChange}
                 />
-                <span>{duration}</span>
-            </form>
 
+                <span className={classes.DurationDiv}>{duration}</span>
+            </div>
         );
     }
 };

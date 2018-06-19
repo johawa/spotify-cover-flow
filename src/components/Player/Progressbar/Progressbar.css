@@ -1,0 +1,9 @@
+.ProgessbarContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.DurationDiv {
+    margin-left: 1.5rem;   
+}

@@ -1,13 +1,40 @@
 .TrackItem {
-    border-bottom: 1px solid rgba(35,37,38,1);
-    padding: 0.5px;
-    background-color:#1a1919;
+    border-bottom: 1px solid rgba(35, 37, 38, 1);
+    padding: 0.9px 0px 0.9px 0px;
+    background-color: #1a1919;
     display: flex;
     justify-content: space-between;
-   
+    /*     border: 1px solid red; */
 }
 
 .TrackItem:hover {
     cursor: pointer;
-    background-color:rgba(54,56,57,1);
+    background-color: rgba(54, 56, 57, 1);
+}
+
+.IconBox {
+    margin: 0px 5px 0px 5px;
+    background: transparent;   
+    flex-shrink: 0;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    display: flex;
+    max-width: 100%;  
+    max-height: 100%;  
+   
+  
+}
+
+.NameBox {
+    /*     border: 1px solid blue; */
+    flex: 1;
+}
+
+.Name {
+    margin-left: 1em;
+}
+
+.DurationBox {
+    /*   border: 1px solid green; */
 }
