@@ -1,68 +1,52 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { PlayButton, PauseButton } from 'react-player-controls'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { PlayButton, PauseButton } from "react-player-controls";
 
-
-import classes from './Playbutton.css';
-import playSVG from '../../../assets/Play_Pause_Svg.svg';
-import { player } from '../../../App';
-
+import classes from "./Playbutton.css";
+import playSVG from "../../../assets/Play_Pause_Svg.svg";
+import { player } from "../../../App";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import '!style-loader!css-loader!./Playbutton.css';
-
-
-
-
+import "!style-loader!css-loader!./Playbutton.css";
 
 class Playbutton extends Component {
-
-
-    togglePlay = () => {
-
-        if (this.props.playing && this.props.playing_data !== false) {
-            player.pause().then(() => {
-                console.log('Paused!');
-            });
-        }
-
-
-
-        else if (this.props.playing === false && this.props.playing_data !== true) {
-            player.resume().then(() => {
-                console.log('Resumed!');
-            });
-        }
-
-        else {
-            console.log('currently not playing')
-        }
-
+  togglePlay = () => {
+    if (this.props.playing && this.props.playing_data !== false) {
+      player.pause().then(() => {
+        console.log("Paused!");
+      });
+    } else if (
+      this.props.playing === false &&
+      this.props.playing_data !== true
+    ) {
+      player.resume().then(() => {
+        console.log("Resumed!");
+      });
+    } else {
+      console.log("currently not playing");
     }
+  };
 
-    render() {
-
-        /*  let label = "Playbutton"
+  render() {
+    /*  let label = "Playbutton"
  
          if (this.props.playing && this.props.playing_data !== false) {
              label = "PAUSE"
          }
   */
 
-        let css = classes.Shapeshifter
+    let css = classes.Shapeshifter;
 
-        if (this.props.playing && this.props.playing_data !== false) {
-            css = [classes.Shapeshifter, classes.Play].join(' ');
-        }
+    if (this.props.playing && this.props.playing_data !== false) {
+      css = [classes.Shapeshifter, classes.Play].join(" ");
+    }
 
-         if (this.props.playing === false && this.props.playing_data !== true) {
-            css = [classes.Shapeshifter, classes.Pause].join(' ');
-        }
+    if (this.props.playing === false && this.props.playing_data !== true) {
+      css = [classes.Shapeshifter, classes.Pause].join(" ");
+    }
 
- 
-        return (
-
-            /*    
+    return (
+      /*    
                     <PlayButton
                         class={label}
                         onClick={this.togglePlay}
@@ -83,23 +67,20 @@ class Playbutton extends Component {
     
                     </PlayButton> */
 
-            <div
-                onClick={this.togglePlay}
-                className={css}
-                style={{ backgroundImage: `url(${playSVG})` }}>
-            </div>
-
-
-        );
-    };
-};
-
-const mapStateToProps = state => {
-    return {
-        playing: state.playing,
-        playing_data: state.current_playback_data,
-    };
+      <div
+        onClick={this.togglePlay}
+        className={css}
+        style={{ backgroundImage: `url(${playSVG})` }}
+      />
+    );
+  }
 }
 
+const mapStateToProps = state => {
+  return {
+    playing: state.playing,
+    playing_data: state.current_playback_data
+  };
+};
 
 export default connect(mapStateToProps)(Playbutton);

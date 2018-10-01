@@ -1,14 +1,14 @@
 .VolumehandlerBox {
-    border: 1px solid green;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    width: 200px;
+    width: 35%;
+    height: 100%;
 }
 
 .SoundIconBox {
-    border: 1px solid orangered;
-    margin: 5px;
+    margin-right: 12.5px;
+    transform: scale(2) translateY(0.5px);
 }
 

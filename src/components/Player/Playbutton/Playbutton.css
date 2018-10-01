@@ -25,6 +25,7 @@
   0% {
     background-position: 0px 0px;
   }
+
   100% {
     background-position: -432px 0px;
   }
@@ -34,6 +35,7 @@
   0% {
     background-position: -432px 0px;
   }
+
   100% {
     background-position: 0px 0px;
   }
@@ -52,12 +54,14 @@
   margin-top: -2px;
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   transform: scale(2);
 }
 
 .Shapeshifter:hover {
-  transform: scale(2.1);
+  transform: scale(2.3);
+  cursor: pointer;
+  color: #282828;
 }
 
 .Shapeshifter.Play {

@@ -29,12 +29,12 @@
 
 .Volumecontainer {
   
-    flex-shrink: 0;
-    padding-top: 1.5rem;
+    flex-shrink: 0; 
+    height: 100%;
     flex-basis: 20%;
     display: flex;    
-    justify-content: flex-start;
-    align-content: center;
+    justify-content: center;   
+    align-content: center; 
     
 }
 

@@ -1,0 +1,56 @@
+.LogoContainer {
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: flex-end;
+
+}
+
+.LogoName {
+    transform: translateY(0.8rem);
+    margin-left: 0.5rem;
+}
+
+.LogoName p {
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: block;
+    font-size: 12px;
+}
+
+.LogoDivs {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.LogoDiv_1 {
+    border-radius: 1rem;
+    height: 35px;
+    width: 8px;
+    margin: 3px;
+    background: #72D687;
+    transform: skew(-30deg);
+
+}
+
+.LogoDiv_2 {
+    border-radius: 1rem;
+    height: 35px;
+    width: 8px;
+    margin: 3px;
+    background: #49BFA9;
+    transform: skew(-30deg);
+}
+
+.LogoDiv_3 {
+    border-radius: 1rem;
+    height: 35px;
+    width: 8px;
+    margin: 3px;
+    background: rgb(0, 228, 217);
+    transform: skew(-30deg);
+}
