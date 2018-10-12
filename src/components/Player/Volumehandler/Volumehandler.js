@@ -11,6 +11,7 @@ class Volumehandler extends Component {
   handleChange = event => {
     const value = event;
     const value_volume = value * 0.01;
+  
     player.setVolume(value_volume).then(() => {
       console.log("Volume updated!");
     });

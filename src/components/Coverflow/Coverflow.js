@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ReactDOM from "react-dom";
 
 import classes from "./Coverflow.css";
 import axios from "../../axios-query";
@@ -16,11 +17,13 @@ class Coverflow extends Component {
     movement: 0,
     windowWidth: null,
     CoverFlowWidth: null,
-    updated: false
+    updated: false,
+    elementInMiddle: null
   };
 
   componentDidMount() {
     window.addEventListener("resize", this.updateDimensions);
+    window.addEventListener("keydown", this.handleKeyboardEvent);
     this.scrollAnimation();
     this.updateDimensions();
   }
@@ -28,8 +31,15 @@ class Coverflow extends Component {
   componentWillUnmount = () => {
     window.removeEventListener("mousemove", this.scrollMiddleWare);
     window.removeEventListener("mousemove", this.handleMouseMove);
-
+    window.removeEventListener("keydown", this.handleKeyboardEvent);
     console.log("unmount");
+  };
+
+  handleKeyboardEvent = event => {
+    const type = event.code;
+    if (type === "Enter" || type === "ArrowDown") {
+      this.getID(null, null, this.state.elementInMiddle);
+    }
   };
 
   updateDimensions = () => {
@@ -238,12 +248,24 @@ class Coverflow extends Component {
         let offset = ~~itemWidth * 0.2; //DELETE AFTER FLIPPER FIX
 
         //FILTER ELEMENTS TO LEFT RIGHT AND MIDDLE
-        let MiddleItem = itemsArr.filter(items => {
+        const MiddleItem = itemsArr.filter(items => {
           return (
             items.getBoundingClientRect().x <= startRight + 2 &&
             items.getBoundingClientRect().x >= endLeft - 2
           );
         });
+        //CHECK IF THERE IS A MIDDLE ITEM
+        if (MiddleItem.length > 0) {
+          //CHECK IF THIS MIDDLEITEM IS UNEQUAL TO THE STATE MIDDLEITEM OF IF IT IS NULL
+          //AND UPDATE THE STATE
+          if (
+            this.state.elementInMiddle === null ||
+            this.state.elementInMiddle[0].outerHTML !== MiddleItem[0].outerHTML
+          ) {
+            this.setState({ elementInMiddle: MiddleItem });
+            console.log("updating middle Item");
+          }
+        }
 
         let leftItems = itemsArr.filter(
           items => items.getBoundingClientRect().x < endLeft - offset
@@ -306,17 +328,37 @@ class Coverflow extends Component {
     );
   }
 
-  getID = (e, id) => {
+  getID = (e, passedID, ElementFromKeyboardEvent) => {
     //console.log(ReactDOM.findDOMNode(this).offsetWidth)
-    //console.log(ReactDOM.findDOMNode(e.currentTarget))
+    //console.log(ReactDOM.findDOMNode(this.state.elementInMiddle[0]));
     //console.log(this.refs[`front_${id}`].classList)
+    let id;
+    let target;
+    let backOfTarget;
+    let parent;
+    //GLOBAL CLICK WITH ENTER
+    if (ElementFromKeyboardEvent) {
+      target = ReactDOM.findDOMNode(this.state.elementInMiddle[0].firstChild);
+      id = target.id;
+      backOfTarget = target.nextSibling;
+      parent = target.parentNode;
+    }
+    //CLICK WITH MOUSE
+    if (!ElementFromKeyboardEvent && passedID) {
+      target = e.currentTarget;
+      id = passedID;
+      backOfTarget = target.nextSibling;
+      parent = target.parentNode;
+    }
 
-    const target = e.currentTarget;
-    const backOfTarget = target.nextSibling;
-    const parent = target.parentNode;
+    if (parent === undefined) {
+      return;
+    }
 
-    if (parent.classList.contains(classes.Middle)) {
-      e.preventDefault();
+    if (parent.classList.contains(classes.Middle) && target !== undefined) {
+      if (!ElementFromKeyboardEvent) {
+        e.preventDefault();
+      }
 
       target.classList.add(classes.ClickedFront);
       backOfTarget.classList.add(classes.ClickedBack);
@@ -326,7 +368,6 @@ class Coverflow extends Component {
       axios
         .get("albums/" + id + "/tracks")
         .then(data => {
-          //console.log(data);
           return Promise.all(
             data.data.items.map(function(item) {
               return [
@@ -347,6 +388,7 @@ class Coverflow extends Component {
       this.setState({ clicked: true, clickedBackId: id });
     } else {
       console.log("element not in middle");
+
       /*  let obj = this.refs
              var result = Object.keys(obj).map(function (key) {
                  return [obj[key]];
@@ -361,7 +403,7 @@ class Coverflow extends Component {
 
     if (this.props.imgArr) {
       listElements = this.props.imgArr.map((image, index) => {
-        const id = this.props.ids[index].id;
+        let id = this.props.ids[index].id;
 
         return (
           <Aux key={index}>
@@ -372,11 +414,17 @@ class Coverflow extends Component {
             >
               <div
                 className={classes.Front}
+                id={id}
                 onClick={e => {
                   this.getID(e, id);
                 }}
               >
-                <img draggable={false} className={classes.Image} src={image} alt="" />
+                <img
+                  draggable={false}
+                  className={classes.Image}
+                  src={image}
+                  alt=""
+                />
                 <p
                   className={classes.Description}
                   style={{ zIndex: 101 + index * -1 }}

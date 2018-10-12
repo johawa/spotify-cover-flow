@@ -27,6 +27,21 @@ class Playbutton extends Component {
     }
   };
 
+  componentDidMount() {
+    //window.addEventListener("keydown", this.handleKeyboardEvent);
+  }
+
+  /* handleKeyboardEvent = event => {
+    const type = event.code;
+    if (type === "Space") {
+      this.togglePlay();
+    }
+  };
+ */
+  componentWillUnmount() {
+    //window.removeEventListener("keydown", this.handleKeyboardEvent);
+  }
+
   render() {
     /*  let label = "Playbutton"
  
